@@ -4,10 +4,12 @@
 
 A modern full-stack online bookstore built using Spring Boot, Thymeleaf, and MySQL.
 
-![Java](https://img.shields.io/badge/Java-22-orange?style=for-the-badge)
-![Spring Boot](https://img.shields.io/badge/Spring%20Boot-3.5-brightgreen?style=for-the-badge)
-![MySQL](https://img.shields.io/badge/MySQL-Database-blue?style=for-the-badge)
-![Thymeleaf](https://img.shields.io/badge/Thymeleaf-Frontend-darkgreen?style=for-the-badge)
+![Java](https://img.shields.io/badge/Java-22-orange?style=for-the-badge&logo=openjdk&logoColor=white)
+![Spring Boot](https://img.shields.io/badge/Spring%20Boot-3.5-brightgreen?style=for-the-badge&logo=springboot&logoColor=white)
+![MySQL](https://img.shields.io/badge/MySQL-Database-blue?style=for-the-badge&logo=mysql&logoColor=white)
+![Thymeleaf](https://img.shields.io/badge/Thymeleaf-Frontend-darkgreen?style=for-the-badge&logo=thymeleaf&logoColor=white)
+![Maven](https://img.shields.io/badge/Maven-Build-red?style=for-the-badge&logo=apachemaven&logoColor=white)
+![MIT License](https://img.shields.io/badge/License-MIT-yellow?style=for-the-badge)
 
 </div>
 
@@ -15,40 +17,46 @@ A modern full-stack online bookstore built using Spring Boot, Thymeleaf, and MyS
 
 ## ✨ Features
 
-### 👤 Customer Features
+<table>
+<tr>
+<td width="50%">
 
-- Browse available books
-- Live search by title
-- Add/remove books from cart
-- Session-based cart management
-- Checkout system
-- Order confirmation email
+### 👤 Customer Features
+- 🔍 Browse & live-search books by title
+- 🛒 Add / remove books from cart
+- 🧾 Session-based cart management
+- 💳 Checkout system
+- 📧 Order confirmation email
+
+</td>
+<td width="50%">
 
 ### 🔐 Admin Features
+- 🔒 Secure admin login
+- ➕ Add new books with cover images
+- ✏️ Edit & delete book listings
+- 🔍 Instant book search
 
-- Secure admin login
-- Add new books
-- Upload cover images
-- Edit book details
-- Delete books
-- Search books instantly
-
----
-
-# 🛠️ Tech Stack
-
-| Technology | Used |
-|------------|------|
-| Backend | Java 22, Spring Boot 3.5 |
-| Frontend | Thymeleaf, HTML, CSS |
-| Database | MySQL |
-| ORM | Spring Data JPA / Hibernate |
-| Email | Spring Mail (Gmail SMTP) |
-| Build Tool | Maven |
+</td>
+</tr>
+</table>
 
 ---
 
-# 📂 Project Structure
+## 🛠️ Tech Stack
+
+| Layer | Technology |
+|-------|-----------|
+| **Backend** | Java 22, Spring Boot 3.5 |
+| **Frontend** | Thymeleaf, HTML, CSS |
+| **Database** | MySQL |
+| **ORM** | Spring Data JPA / Hibernate |
+| **Email** | Spring Mail (Gmail SMTP) |
+| **Build** | Maven |
+
+---
+
+## 📂 Project Structure
 
 ```bash
 bookstore/
@@ -56,14 +64,14 @@ bookstore/
 ├── src/
 │   └── main/
 │       ├── java/bookstore/
-│       │   ├── controller/
-│       │   ├── model/
-│       │   ├── repository/
+│       │   ├── controller/          # MVC Controllers
+│       │   ├── model/               # Entity classes
+│       │   ├── repository/          # JPA Repositories
 │       │   └── BookstoreApplication.java
 │       │
 │       └── resources/
-│           ├── templates/
-│           ├── static/images/
+│           ├── templates/           # Thymeleaf HTML templates
+│           ├── static/images/       # Static assets
 │           └── application.properties
 │
 └── pom.xml
@@ -71,116 +79,103 @@ bookstore/
 
 ---
 
-# ⚙️ Installation & Setup
+## ⚙️ Installation & Setup
 
-## 1️⃣ Clone Repository
+### 1️⃣ Clone the Repository
 
 ```bash
 git clone https://github.com/basavarajsindgi91-netizen/bookstore.git
 cd bookstore
 ```
 
----
-
-## 2️⃣ Create Database
+### 2️⃣ Create the Database
 
 ```sql
 CREATE DATABASE bookstore;
 ```
 
----
+### 3️⃣ Configure Credentials
 
-## 3️⃣ Configure Credentials
-
-Create:
-
-```bash
-src/main/resources/application-local.properties
-```
-
-Add:
+Create the file `src/main/resources/application-local.properties` and add:
 
 ```properties
 DB_PASSWORD=your_mysql_password
-
 MAIL_USERNAME=your_email@gmail.com
 MAIL_PASSWORD=your_gmail_app_password
 ```
 
----
+> 💡 **Tip:** For Gmail, use an [App Password](https://support.google.com/accounts/answer/185833) instead of your main account password.
 
-## 4️⃣ Run Application
+### 4️⃣ Run the Application
 
 ```bash
 mvn spring-boot:run
 ```
 
-Application runs on:
-
-```bash
-http://localhost:8083
-```
+The app will start at → **[http://localhost:8083](http://localhost:8083)**
 
 ---
 
-# 🔐 Admin Login
+## 🔐 Admin Access
 
 | Field | Value |
-|------|------|
-| URL | `/login` |
-| Username | `admin` |
-| Password | `admin123` |
+|-------|-------|
+| **URL** | `/login` |
+| **Username** | `admin` |
+| **Password** | `admin123` |
+
+> ⚠️ Change these credentials before deploying to production.
 
 ---
 
-# 📸 Pages
+## 📸 Pages
 
 | Page | URL |
-|------|------|
-| Shop | `/` |
-| Cart | `/cart` |
-| Checkout | `/checkout` |
-| Admin Panel | `/admin` |
-| Login | `/login` |
+|------|-----|
+| 🏪 Shop | `/` |
+| 🛒 Cart | `/cart` |
+| 💳 Checkout | `/checkout` |
+| 🛠️ Admin Panel | `/admin` |
+| 🔒 Login | `/login` |
 
 ---
 
-# 📬 Email Confirmation
+## 📬 Order Confirmation Email
 
-After checkout, customers receive an email containing:
+After a successful checkout, customers automatically receive an email containing:
 
-- Ordered books
-- Total amount
-- Delivery address
-- Purchase confirmation
-
----
-
-# 🚀 Future Enhancements
-
-- User authentication
-- Payment gateway
-- Order history
-- Wishlist
-- Mobile responsive UI
-- Category filters
+- 📖 List of ordered books
+- 💰 Total amount
+- 🏠 Delivery address
+- ✅ Purchase confirmation
 
 ---
 
-# 👨‍💻 Author
+## 🚀 Future Enhancements
 
-### Basavaraj Sindagi
-
-- GitHub: [basavarajsindgi91-netizen](https://github.com/basavarajsindgi91-netizen)
-
----
-
-# ⭐ Support
-
-If you like this project, give it a ⭐ on GitHub.
+- [ ] User authentication & registration
+- [ ] Payment gateway integration
+- [ ] Order history & tracking
+- [ ] Wishlist functionality
+- [ ] Mobile responsive UI
+- [ ] Category filters & sorting
 
 ---
 
-# 📄 License
+## 👨‍💻 Author
 
-This project is licensed under the MIT License.
+**Basavaraj Sindagi**
+
+[![GitHub](https://img.shields.io/badge/GitHub-basavarajsindgi91--netizen-181717?style=for-the-badge&logo=github)](https://github.com/basavarajsindgi91-netizen)
+
+---
+
+## ⭐ Support
+
+If you find this project useful, please consider giving it a **⭐ star** on GitHub — it helps others discover the project!
+
+---
+
+## 📄 License
+
+This project is licensed under the **MIT License** — see the [LICENSE](LICENSE) file for details.

@@ -20,7 +20,10 @@ Search books by title
 
 
 🛠️ Tech Stack
-LayerTechnologyBackendJava 22, Spring Boot 3.5FrontendThymeleaf, HTML, CSSDatabaseMySQLORMSpring Data JPA / HibernateEmailSpring Mail (Gmail SMTP)Build ToolMaven
+LayerTechnology
+Backend: Java 22, Spring Boot 3.5
+Frontend: Thymeleaf, HTML, CSS
+Database: MySQL ORMSpring Data JPA / HibernateEmailSpring Mail (Gmail SMTP)Build ToolMaven
 
 ⚙️ Setup & Installation
 Prerequisites

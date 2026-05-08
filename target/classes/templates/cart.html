@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Your Cart - BookHaven</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --gold:       #C8A84B;
+            --gold-light: #E2C87A;
+            --ink:        #0E0C09;
+            --ink-soft:   #1C1914;
+            --cream:      #F8F4EE;
+            --paper:      #F0EBE1;
+            --muted:      #8A7F72;
+        }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            background: var(--cream);
+            color: var(--ink);
+            margin: 0;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+        }
+
+        h1 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 2.8rem;
+            color: var(--ink);
+            text-align: center;
+            margin-bottom: 2rem;
+            letter-spacing: 0.02em;
+        }
+
+        .cart-table {
+            width: 100%;
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 15px 50px rgba(14,12,9,0.1);
+            border-collapse: collapse;
+        }
+
+        .cart-table th {
+            background: var(--ink-soft);
+            color: var(--gold);
+            padding: 1.2rem 1rem;
+            text-align: left;
+            font-weight: 500;
+            font-size: 0.95rem;
+            letter-spacing: 0.05em;
+        }
+
+        .cart-table td {
+            padding: 1.4rem 1rem;
+            border-bottom: 1px solid #f0e9d9;
+            vertical-align: middle;
+        }
+
+        .cart-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .book-info {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .book-info img {
+            width: 70px;
+            height: 90px;
+            object-fit: cover;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        .book-details h3 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.25rem;
+            margin: 0 0 0.3rem 0;
+        }
+
+        .book-details p {
+            color: var(--muted);
+            margin: 0;
+            font-size: 0.9rem;
+        }
+
+        .price {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--gold);
+            font-family: 'Cormorant Garamond', serif;
+        }
+
+        .remove-btn {
+            background: #e63939;
+            color: white;
+            border: none;
+            padding: 0.6rem 1.2rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            transition: all 0.2s;
+        }
+
+        .remove-btn:hover {
+            background: #c1121f;
+            transform: scale(1.05);
+        }
+
+        .total-section {
+            background: white;
+            border-radius: 20px;
+            padding: 2rem;
+            margin-top: 2rem;
+            box-shadow: 0 15px 50px rgba(14,12,9,0.1);
+            text-align: right;
+        }
+
+        .total-amount {
+            font-size: 2rem;
+            font-family: 'Cormorant Garamond', serif;
+            color: var(--gold);
+            margin: 1rem 0;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: flex-end;
+            margin-top: 2rem;
+        }
+
+        .btn {
+            padding: 0.9rem 2rem;
+            border-radius: 10px;
+            font-weight: 500;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.3s;
+        }
+
+        .btn-continue {
+            background: transparent;
+            color: var(--ink);
+            border: 2px solid var(--ink);
+        }
+
+        .btn-checkout {
+            background: var(--gold);
+            color: var(--ink);
+            font-weight: 600;
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+        }
+
+        .empty-cart {
+            text-align: center;
+            padding: 4rem 2rem;
+            color: var(--muted);
+        }
+
+        .empty-cart i {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            opacity: 0.3;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Your Cart</h1>
+
+    <div th:if="${cartItems != null and cartItems.size() > 0}">
+        <table class="cart-table">
+            <thead>
+                <tr>
+                    <th>Book Details</th>
+                    <th>Author</th>
+                    <th>Price</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="book, stat : ${cartItems}">
+                    <td>
+                        <div class="book-info">
+                            <img th:src="${book.imageUrl != null ? book.imageUrl : '/images/default-book.jpg'}" 
+                                 th:alt="${book.title}"
+                                 onerror="this.src='/images/default-book.jpg'">
+                            <div class="book-details">
+                                <h3 th:text="${book.title}"></h3>
+                            </div>
+                        </div>
+                    </td>
+                    <td><span th:text="${book.author}"></span></td>
+                    <td><span class="price">₹ <span th:text="${book.price}"></span></span></td>
+                    <td>
+                        <a th:href="@{/remove-cart/{i}(i=${stat.index})}" 
+                           class="remove-btn">
+                            <i class="fas fa-trash"></i> Remove
+                        </a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <!-- Total Section -->
+        <div class="total-section">
+            <h2 style="margin-bottom: 0.5rem;">Order Summary</h2>
+            <div class="total-amount">
+                Total: ₹ <span th:text="${total}"></span>
+            </div>
+
+            <div class="action-buttons">
+                <a href="/" class="btn btn-continue">
+                    <i class="fas fa-arrow-left"></i> Continue Shopping
+                </a>
+
+                <!-- ✅ FIXED: text and icon moved inside the <a> tag, closing </a> placed correctly -->
+                <a href="/checkout" class="btn btn-checkout">
+                    Proceed to Checkout <i class="fas fa-arrow-right"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Empty Cart Message -->
+    <div th:if="${cartItems == null or cartItems.size() == 0}" class="empty-cart">
+        <i class="fas fa-shopping-bag"></i>
+        <h2>Your cart is empty</h2>
+        <p>Looks like you haven't added any books yet.</p>
+        <a href="/" class="btn btn-checkout" style="margin-top: 2rem; display: inline-block;">
+            Browse Books
+        </a>
+    </div>
+</div>
+
+</body>
+</html>

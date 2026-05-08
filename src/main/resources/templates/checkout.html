@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Checkout - BookHaven</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --gold:       #C8A84B;
+            --gold-light: #E2C87A;
+            --ink:        #0E0C09;
+            --ink-soft:   #1C1914;
+            --cream:      #F8F4EE;
+            --paper:      #F0EBE1;
+            --muted:      #8A7F72;
+        }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            background: var(--cream);
+            color: var(--ink);
+            margin: 0;
+            min-height: 100vh;
+            padding: 2rem 1rem;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 2rem auto;
+        }
+
+        .checkout-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .checkout-header h1 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 3rem;
+            color: var(--ink);
+            margin-bottom: 0.5rem;
+        }
+
+        .checkout-header p {
+            color: var(--muted);
+            font-size: 1.1rem;
+        }
+
+        .checkout-box {
+            background: white;
+            border-radius: 24px;
+            box-shadow: 0 20px 60px rgba(14,12,9,0.12);
+            padding: 3rem 2.5rem;
+            border: 1px solid rgba(200,168,75,0.15);
+        }
+
+        .form-group {
+            margin-bottom: 1.8rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.6rem;
+            font-weight: 500;
+            color: var(--ink);
+            font-size: 0.95rem;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 1rem 1.2rem;
+            border: 1px solid #e5d9c0;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-family: 'Outfit', sans-serif;
+            transition: all 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--gold);
+            box-shadow: 0 0 0 4px rgba(200, 168, 75, 0.12);
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 110px;
+        }
+
+        .order-summary {
+            background: var(--paper);
+            padding: 1.5rem;
+            border-radius: 16px;
+            margin: 2rem 0;
+        }
+
+        .total-row {
+            display: flex;
+            justify-content: space-between;
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: var(--gold);
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 2px solid rgba(200,168,75,0.2);
+        }
+
+        .btn {
+            width: 100%;
+            padding: 1.1rem;
+            background: var(--gold);
+            color: var(--ink);
+            border: none;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 1.5rem;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.8rem;
+        }
+
+        .btn:hover {
+            background: var(--gold-light);
+            transform: translateY(-3px);
+        }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--muted);
+            text-decoration: none;
+            margin-bottom: 2rem;
+            font-size: 0.95rem;
+        }
+
+        .back-link:hover {
+            color: var(--ink);
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <a href="/cart" class="back-link">
+        <i class="fas fa-arrow-left"></i> Back to Cart
+    </a>
+
+    <div class="checkout-header">
+        <h1>Checkout</h1>
+        <p>Almost there! Please fill your delivery details</p>
+    </div>
+
+    <div class="checkout-box">
+        <form action="/place-order" method="post">
+            
+            <div class="form-group">
+                <label for="name">Full Name</label>
+                <input type="text" id="name" name="name" placeholder="Enter your full name" required>
+            </div>
+
+            <div class="form-group">
+                <label for="mobile">Mobile Number</label>
+                <input type="text" id="mobile" name="mobile" placeholder="Enter your 10-digit mobile number" required>
+            </div>
+
+            <div class="form-group">
+                <label for="email">Email Address</label>
+                <input type="email" id="email" name="email" placeholder="Enter your email address" required>
+            </div>
+
+            <div class="form-group">
+                <label for="address">Full Delivery Address</label>
+                <textarea id="address" name="address" 
+                          placeholder="House no., Street, Area, City, Pincode" 
+                          rows="4" required></textarea>
+            </div>
+
+            <!-- Order Summary -->
+<div class="order-summary">
+    <h3 style="margin-bottom: 1rem; color: var(--ink);">Order Summary</h3>
+
+    <!-- Book list -->
+    <div th:each="book : ${cartItems}"
+         style="display:flex; justify-content:space-between; padding: 0.5rem 0; border-bottom: 1px solid rgba(200,168,75,0.15); font-size: 0.95rem;">
+        <span th:text="${book.title}" style="color: var(--ink);"></span>
+        <span th:text="'₹ ' + ${book.price}" style="color: var(--muted);"></span>
+    </div>
+
+    <div class="total-row">
+        <span>Total Amount</span>
+        <span>₹ <span th:text="${total != null ? total : '0'}"></span></span>
+    </div>
+</div>
+
+            <button type="submit" class="btn">
+                <i class="fas fa-lock"></i>
+                Place Secure Order
+            </button>
+        </form>
+    </div>
+</div>
+
+</body>
+</html>

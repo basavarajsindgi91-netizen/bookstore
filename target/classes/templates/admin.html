@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Online Bookstore</title>
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: #f0f4f8;
+            color: #1a2332;
+            min-height: 100vh;
+            padding: 2rem 1rem;
+        }
+
+        .container {
+            max-width: 960px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: #1a2332;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid #e2e8f0;
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+        }
+
+        h1::before {
+            content: '';
+            display: inline-block;
+            width: 6px;
+            height: 28px;
+            background: linear-gradient(135deg, #4f46e5, #7c3aed);
+            border-radius: 3px;
+        }
+
+        h2 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #374151;
+            margin-bottom: 1.25rem;
+        }
+
+        .card {
+            background: #ffffff;
+            border-radius: 14px;
+            padding: 1.75rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.06), 0 4px 16px rgba(0,0,0,0.04);
+            border: 1px solid #e9edf2;
+        }
+
+        /* ── Form inputs ── */
+        form input[type="text"],
+        form input[type="file"] {
+            width: 100%;
+            padding: 0.65rem 0.9rem;
+            font-size: 0.95rem;
+            border: 1.5px solid #d1d5db;
+            border-radius: 8px;
+            background: #f9fafb;
+            color: #1a2332;
+            transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
+            margin-bottom: 0.85rem;
+            display: block;
+        }
+
+        form input[type="text"]:focus,
+        form input[type="file"]:focus {
+            outline: none;
+            border-color: #6366f1;
+            background: #fff;
+            box-shadow: 0 0 0 3px rgba(99,102,241,0.12);
+        }
+
+        form input[type="file"] {
+            padding: 0.5rem 0.9rem;
+            cursor: pointer;
+        }
+
+        /* ── Buttons ── */
+        button[type="submit"] {
+            background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            padding: 0.65rem 1.5rem;
+            font-size: 0.95rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: opacity 0.2s, transform 0.15s;
+            letter-spacing: 0.01em;
+        }
+
+        button[type="submit"]:hover  { opacity: 0.9; transform: translateY(-1px); }
+        button[type="submit"]:active { opacity: 1;   transform: translateY(0);    }
+
+        /* ── Search row ── */
+        .search-form {
+            display: flex;
+            gap: 0.6rem;
+            margin-bottom: 1.25rem;
+        }
+
+        .search-form input[type="text"] {
+            flex: 1;
+            margin-bottom: 0;
+        }
+
+        .search-form button {
+            white-space: nowrap;
+        }
+
+        /* ── Table ── */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.9rem;
+        }
+
+        thead tr,
+        tr:first-child:not(:only-child) {
+            background: #f3f4f6;
+        }
+
+        th {
+            text-align: left;
+            padding: 0.7rem 1rem;
+            font-weight: 600;
+            color: #6b7280;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            border-bottom: 2px solid #e5e7eb;
+        }
+
+        td {
+            padding: 0.75rem 1rem;
+            border-bottom: 1px solid #f0f0f0;
+            color: #374151;
+            vertical-align: middle;
+        }
+
+        tr:last-child td { border-bottom: none; }
+
+        tr:hover td { background: #fafbff; }
+
+        /* ID badge */
+        td:first-child {
+            font-weight: 700;
+            color: #6366f1;
+        }
+
+        /* Price */
+        td:nth-child(4) {
+            font-weight: 600;
+            color: #059669;
+        }
+
+        /* Book image */
+        td img {
+            border-radius: 6px;
+            object-fit: cover;
+            display: block;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+        }
+
+        /* ── Action buttons ── */
+        .edit-btn,
+        .delete-btn {
+            display: inline-block;
+            padding: 0.35rem 0.85rem;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-decoration: none;
+            transition: background 0.15s, color 0.15s;
+            margin-right: 0.4rem;
+        }
+
+        .edit-btn {
+            background: #ede9fe;
+            color: #5b21b6;
+        }
+
+        .edit-btn:hover {
+            background: #ddd6fe;
+            color: #4c1d95;
+        }
+
+        .delete-btn {
+            background: #fee2e2;
+            color: #b91c1c;
+        }
+
+        .delete-btn:hover {
+            background: #fecaca;
+            color: #991b1b;
+        }
+
+        /* ── Responsive ── */
+        @media (max-width: 620px) {
+            h1 { font-size: 1.3rem; }
+
+            table { display: block; overflow-x: auto; }
+
+            .card { padding: 1.25rem; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+
+    <h1>Online Bookstore — Admin Panel</h1>
+
+    <div class="card">
+        <h2>Add New Book</h2>
+
+        <form action="/add" method="post" enctype="multipart/form-data">
+            <input type="text"  name="title"  placeholder="Book Title"   required>
+            <input type="text"  name="author" placeholder="Author Name"  required>
+            <input type="text"  name="price"  placeholder="Price"        required>
+            <input type="file"  name="file"                              required>
+            <button type="submit">Add Book</button>
+        </form>
+    </div>
+
+    <div class="card">
+        <h2>Books List</h2>
+
+        <form th:action="@{/search}" method="get" class="search-form">
+            <input type="text" name="keyword" placeholder="Search by title…">
+            <button type="submit">Search</button>
+        </form>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Title</th>
+                    <th>Author</th>
+                    <th>Price</th>
+                    <th>Image</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="book : ${books}">
+                    <td th:text="${book.id}"></td>
+                    <td th:text="${book.title}"></td>
+                    <td th:text="${book.author}"></td>
+                    <td th:text="${book.price}"></td>
+                    <td>
+                        <img th:src="${book.imageUrl}" width="60" height="80" alt="Book cover">
+                    </td>
+                    <td>
+                        <a class="edit-btn"   th:href="@{/edit/{id}(id=${book.id})}">Edit</a>
+                        <a class="delete-btn" th:href="@{/delete/{id}(id=${book.id})}">Delete</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+</div>
+
+</body>
+</html>

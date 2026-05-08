@@ -1,0 +1,4 @@
+bookstore\model\Book.class
+bookstore\BookstoreApplication.class
+bookstore\controller\HomeController.class
+bookstore\repository\BookRepository.class

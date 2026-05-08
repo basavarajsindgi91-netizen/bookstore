@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>BookHaven | Online Bookstore</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --gold:       #C8A84B;
+            --gold-light: #E2C87A;
+            --ink:        #0E0C09;
+            --ink-soft:   #1C1914;
+            --cream:      #F8F4EE;
+            --muted:      #8A7F72;
+        }
+
+        body { font-family: 'Outfit', sans-serif; background: var(--cream); color: var(--ink); margin: 0; }
+
+        header {
+            background: var(--ink-soft);
+            color: white;
+            padding: 1rem 3rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        header h1 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 2rem;
+            color: var(--gold);
+        }
+
+        /* Search Box */
+        .search-box {
+            display: flex;
+            align-items: center;
+            background: rgba(255,255,255,0.08);
+            border: 1.5px solid rgba(200,168,75,0.35);
+            border-radius: 12px;
+            overflow: hidden;
+            transition: border-color 0.2s;
+        }
+        .search-box:focus-within {
+            border-color: var(--gold);
+        }
+        .search-box input {
+            background: transparent;
+            border: none;
+            outline: none;
+            color: white;
+            padding: 0.55rem 1rem;
+            font-family: 'Outfit', sans-serif;
+            font-size: 0.95rem;
+            width: 260px;
+        }
+        .search-box input::placeholder {
+            color: rgba(255,255,255,0.35);
+        }
+        .search-box button {
+            background: var(--gold);
+            border: none;
+            padding: 0.55rem 1rem;
+            color: var(--ink);
+            cursor: pointer;
+            font-size: 0.95rem;
+            transition: background 0.2s;
+        }
+        .search-box button:hover {
+            background: var(--gold-light);
+        }
+
+        /* Clear search banner */
+        .search-banner {
+            max-width: 1200px;
+            margin: 2rem auto 0;
+            padding: 0 2rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        .search-banner span {
+            font-size: 1rem;
+            color: var(--muted);
+        }
+        .search-banner strong {
+            color: var(--ink);
+        }
+        .clear-btn {
+            text-decoration: none;
+            color: var(--gold);
+            font-weight: 600;
+            font-size: 0.9rem;
+            border: 1.5px solid var(--gold);
+            padding: 0.3rem 0.9rem;
+            border-radius: 8px;
+            transition: background 0.2s, color 0.2s;
+        }
+        .clear-btn:hover {
+            background: var(--gold);
+            color: var(--ink);
+        }
+
+        /* No results */
+        .no-results {
+            text-align: center;
+            padding: 5rem 2rem;
+            color: var(--muted);
+        }
+        .no-results i {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            display: block;
+            color: var(--gold);
+            opacity: 0.5;
+        }
+        .no-results p {
+            font-size: 1.1rem;
+        }
+
+        .book-container {
+            max-width: 1200px;
+            margin: 2rem auto 4rem;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            padding: 0 2rem;
+        }
+        .book-card {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 8px 32px rgba(14,12,9,0.08);
+            overflow: hidden;
+            transition: all 0.3s;
+        }
+        .book-card:hover { transform: translateY(-8px); }
+        .book-img { width: 100%; height: 320px; object-fit: cover; }
+        .book-card h2 { font-family: 'Cormorant Garamond', serif; margin: 0.8rem 1rem 0.3rem; }
+        .author { margin-left: 1rem; color: var(--muted); }
+        .price { margin: 0.8rem 1rem; color: var(--gold); font-size: 1.2rem; font-weight: 600; }
+
+        .book-card button {
+            display: block;
+            margin: 1rem auto 0;
+            background: var(--ink);
+            color: var(--gold);
+            border: none;
+            padding: 0.8rem 2rem;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: 500;
+        }
+
+        /* qty controls */
+        .qty-wrapper {
+            display: none;
+            align-items: center;
+            justify-content: center;
+            margin: 1rem 1rem 1.2rem;
+            background: var(--ink);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        .qty-btn {
+            background: transparent;
+            border: none;
+            color: var(--gold);
+            font-size: 1.4rem;
+            width: 46px;
+            height: 44px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.15s, transform 0.1s;
+        }
+        .qty-btn:hover  { background: rgba(200,168,75,0.15); }
+        .qty-btn:active { transform: scale(0.88); }
+        .qty-num {
+            color: white;
+            font-weight: 600;
+            font-size: 1rem;
+            min-width: 40px;
+            text-align: center;
+            user-select: none;
+        }
+
+        /* admin button */
+        .admin-btn {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            text-decoration: none;
+            color: var(--ink);
+            background: var(--gold);
+            padding: 0.55rem 1.2rem;
+            border-radius: 10px;
+            font-family: 'Outfit', sans-serif;
+            font-weight: 600;
+            font-size: 0.9rem;
+            border: 2px solid transparent;
+            transition: background 0.2s, color 0.2s, border-color 0.2s, transform 0.15s;
+        }
+        .admin-btn:hover {
+            background: transparent;
+            color: var(--gold);
+            border-color: var(--gold);
+            transform: scale(1.04);
+        }
+        .admin-btn i { font-size: 14px; }
+
+        .popup {
+            display: none;
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: var(--ink-soft);
+            color: var(--gold-light);
+            padding: 1rem 2rem;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            z-index: 2000;
+        }
+        .checkout-bar {
+            display: none;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: var(--ink-soft);
+            color: white;
+            padding: 1rem 2rem;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1500;
+        }
+        .checkout-bar a {
+            background: var(--gold);
+            color: var(--ink);
+            padding: 0.8rem 1.8rem;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>📚 BookHaven</h1>
+    <form action="/search-user" method="get" class="search-box">
+        <input type="text" name="keyword"
+               th:value="${keyword}"
+               placeholder="Search books by name...">
+        <button type="submit"><i class="fas fa-search"></i></button>
+    </form>
+    <a href="/login" class="admin-btn"><i class="fas fa-user-shield"></i> Admin</a>
+</header>
+
+<!-- Search result banner -->
+<div class="search-banner" th:if="${keyword != null and !keyword.isEmpty()}">
+    <span>Results for <strong th:text="'&quot;' + ${keyword} + '&quot;'">"..."</strong></span>
+    <a href="/" class="clear-btn">✕ Clear</a>
+</div>
+
+<!-- No results message -->
+<div class="no-results" th:if="${books == null or books.isEmpty()}">
+    <i class="fas fa-book-open"></i>
+    <p th:if="${keyword != null and !keyword.isEmpty()}">
+        No books found for "<strong th:text="${keyword}"></strong>"
+    </p>
+    <p th:if="${keyword == null or keyword.isEmpty()}">No books available right now.</p>
+</div>
+
+<div class="book-container" th:if="${books != null and !books.isEmpty()}">
+    <div class="book-card" th:each="book : ${books}">
+        <img th:src="${book.imageUrl != null ? book.imageUrl : '/images/default-book.jpg'}"
+             th:alt="${book.title}"
+             class="book-img"
+             onerror="this.src='/images/default-book.jpg'">
+
+        <h2 th:text="${book.title}"></h2>
+        <p class="author" th:text="${book.author}"></p>
+        <p class="price">₹ <span th:text="${book.price}"></span></p>
+
+        <button type="button" th:onclick="'initCart(this,' + ${book.id} + ')'">
+            ADD TO CART
+        </button>
+
+        <div class="qty-wrapper" th:id="'qw-' + ${book.id}">
+            <button class="qty-btn" type="button" th:onclick="'changeQty(this,' + ${book.id} + ',-1)'">−</button>
+            <span class="qty-num" th:id="'qn-' + ${book.id}">1</span>
+            <button class="qty-btn" type="button" th:onclick="'changeQty(this,' + ${book.id} + ',1)'">+</button>
+        </div>
+    </div>
+</div>
+
+<!-- Popup -->
+<div class="popup" id="popupMsg">Added To Cart ✅</div>
+
+<!-- Checkout Bar -->
+<div class="checkout-bar" id="checkoutBar">
+    <span id="cartCount">0 Items in Cart</span>
+    <a href="/cart">Checkout →</a>
+</div>
+
+<script>
+    const cartQty = {};
+
+    function initCart(btn, bookId) {
+        cartQty[bookId] = 1;
+        btn.style.display = 'none';
+        document.getElementById('qw-' + bookId).style.display = 'flex';
+        fetch('/add-to-cart/' + bookId)
+            .then(res => { if (res.ok) { showPopup(); updateCartCount(); } })
+            .catch(() => alert("Failed to add item"));
+    }
+
+    function changeQty(btn, bookId, delta) {
+        const next = (cartQty[bookId] || 1) + delta;
+
+        if (next <= 0) {
+            const promises = [];
+            for (let i = 0; i < (cartQty[bookId] || 1); i++) {
+                promises.push(fetch('/remove-from-cart/' + bookId));
+            }
+            Promise.all(promises).then(() => {
+                cartQty[bookId] = 0;
+                const qw = document.getElementById('qw-' + bookId);
+                qw.style.display = 'none';
+                qw.closest('.book-card')
+                  .querySelector('button[type="button"]:not(.qty-btn)')
+                  .style.display = 'block';
+                updateCartCount();
+            });
+            return;
+        }
+
+        if (delta === 1) {
+            fetch('/add-to-cart/' + bookId)
+                .then(() => {
+                    cartQty[bookId] = next;
+                    document.getElementById('qn-' + bookId).textContent = next;
+                    updateCartCount();
+                });
+        } else {
+            fetch('/remove-from-cart/' + bookId)
+                .then(() => {
+                    cartQty[bookId] = next;
+                    document.getElementById('qn-' + bookId).textContent = next;
+                    updateCartCount();
+                });
+        }
+    }
+
+    function showPopup() {
+        const popup = document.getElementById("popupMsg");
+        popup.style.display = "block";
+        setTimeout(() => { popup.style.display = "none"; }, 1500);
+    }
+
+    function updateCartCount() {
+        fetch('/cart-count')
+            .then(res => res.text())
+            .then(count => {
+                document.getElementById("cartCount").innerText = count + " Items in Cart";
+                document.getElementById("checkoutBar").style.display = parseInt(count) > 0 ? "flex" : "none";
+            });
+    }
+
+    window.onload = updateCartCount;
+</script>
+
+</body>
+</html>

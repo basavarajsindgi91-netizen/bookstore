@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Order Success</title>
+
+<style>
+
+body{
+font-family:Arial;
+background:#f0fff4;
+display:flex;
+justify-content:center;
+align-items:center;
+height:100vh;
+}
+
+.box{
+background:white;
+padding:50px;
+border-radius:20px;
+text-align:center;
+box-shadow:0 10px 30px rgba(0,0,0,0.1);
+}
+
+h1{
+color:green;
+font-size:38px;
+}
+
+p{
+font-size:20px;
+margin-top:15px;
+}
+
+a{
+display:inline-block;
+margin-top:25px;
+padding:12px 25px;
+background:#2563eb;
+color:white;
+text-decoration:none;
+border-radius:10px;
+}
+
+</style>
+
+</head>
+<body>
+
+<div class="box">
+<h1>Order Placed Successfully ✅</h1>
+<p>Thank you <span th:text="${name}"></span></p>
+<p>Email confirmation sent.</p>
+<a href="/">Back To Home</a>
+</div>
+
+</body>
+</html>

@@ -1,132 +1,186 @@
-BookHaven — Online Bookstore 📚
+# 📚 BookHaven — Online Bookstore
 
-A modern full-stack online bookstore web application built using Spring Boot, Thymeleaf, and MySQL.
-Customers can browse and purchase books seamlessly, while administrators can manage the bookstore through a secure admin dashboard.
+<div align="center">
 
-✨ Features
-👤 Customer Features
-Browse all available books
-Live search books by title
-Add/remove books from cart
-Session-based shopping cart
-Checkout with customer details
-Automatic order confirmation email after purchase
-🔐 Admin Features
-Secure admin authentication
-Add new books with cover image upload
-Edit book details
-Delete books from catalog
-Search books instantly by title
-🛠️ Tech Stack
-Layer	Technology
-Backend	Java 22, Spring Boot 3.5
-Frontend	Thymeleaf, HTML5, CSS3
-Database	MySQL
-ORM	Spring Data JPA, Hibernate
-Email Service	Spring Mail (Gmail SMTP)
-Build Tool	Maven
-📂 Project Structure
+A modern full-stack online bookstore built using Spring Boot, Thymeleaf, and MySQL.
+
+![Java](https://img.shields.io/badge/Java-22-orange?style=for-the-badge)
+![Spring Boot](https://img.shields.io/badge/Spring%20Boot-3.5-brightgreen?style=for-the-badge)
+![MySQL](https://img.shields.io/badge/MySQL-Database-blue?style=for-the-badge)
+![Thymeleaf](https://img.shields.io/badge/Thymeleaf-Frontend-darkgreen?style=for-the-badge)
+
+</div>
+
+---
+
+## ✨ Features
+
+### 👤 Customer Features
+
+- Browse available books
+- Live search by title
+- Add/remove books from cart
+- Session-based cart management
+- Checkout system
+- Order confirmation email
+
+### 🔐 Admin Features
+
+- Secure admin login
+- Add new books
+- Upload cover images
+- Edit book details
+- Delete books
+- Search books instantly
+
+---
+
+# 🛠️ Tech Stack
+
+| Technology | Used |
+|------------|------|
+| Backend | Java 22, Spring Boot 3.5 |
+| Frontend | Thymeleaf, HTML, CSS |
+| Database | MySQL |
+| ORM | Spring Data JPA / Hibernate |
+| Email | Spring Mail (Gmail SMTP) |
+| Build Tool | Maven |
+
+---
+
+# 📂 Project Structure
+
+```bash
 bookstore/
+│
 ├── src/
 │   └── main/
 │       ├── java/bookstore/
-│       │   ├── BookstoreApplication.java
 │       │   ├── controller/
-│       │   │   └── HomeController.java
 │       │   ├── model/
-│       │   │   └── Book.java
-│       │   └── repository/
-│       │       └── BookRepository.java
+│       │   ├── repository/
+│       │   └── BookstoreApplication.java
 │       │
 │       └── resources/
 │           ├── templates/
-│           │   ├── shop.html
-│           │   ├── cart.html
-│           │   ├── checkout.html
-│           │   ├── admin.html
-│           │   ├── edit.html
-│           │   ├── login.html
-│           │   └── success.html
-│           │
-│           ├── static/
-│           │   └── images/
-│           │
+│           ├── static/images/
 │           └── application.properties
 │
 └── pom.xml
-⚙️ Setup & Installation
-Prerequisites
+```
 
-Make sure you have installed:
+---
 
-Java 22+
-Maven
-MySQL
-1️⃣ Clone the Repository
+# ⚙️ Installation & Setup
+
+## 1️⃣ Clone Repository
+
+```bash
 git clone https://github.com/basavarajsindgi91-netizen/bookstore.git
 cd bookstore
-2️⃣ Create MySQL Database
+```
+
+---
+
+## 2️⃣ Create Database
+
+```sql
 CREATE DATABASE bookstore;
-3️⃣ Configure Environment Variables
+```
 
-Create a file:
+---
 
+## 3️⃣ Configure Credentials
+
+Create:
+
+```bash
 src/main/resources/application-local.properties
+```
 
-Add the following configuration:
+Add:
 
+```properties
 DB_PASSWORD=your_mysql_password
 
 MAIL_USERNAME=your_email@gmail.com
 MAIL_PASSWORD=your_gmail_app_password
-📧 Gmail App Password Setup
-Open your Google Account
-Go to Security
-Enable 2-Step Verification
-Open App Passwords
-Generate a password for this application
-4️⃣ Run the Application
+```
+
+---
+
+## 4️⃣ Run Application
+
+```bash
 mvn spring-boot:run
+```
 
-Application will start at:
+Application runs on:
 
+```bash
 http://localhost:8083
-🔐 Admin Credentials
-Field	Value
-Login URL	/login
-Username	admin
-Password	admin123
-📸 Application Pages
-Page	URL	Access
-Shop	/	Public
-Cart	/cart	Public
-Checkout	/checkout	Public
-Admin Dashboard	/admin	Admin
-Admin Login	/login	Admin
-📬 Order Confirmation Email
+```
 
-After successful checkout, customers automatically receive an email containing:
+---
 
-Ordered book details
-Total amount
-Delivery address
-Purchase confirmation
-🚀 Future Improvements
-User authentication & registration
-Payment gateway integration
-Order history tracking
-Book categories & filters
-Responsive mobile UI
-Wishlist functionality
-🧑‍💻 Author
+# 🔐 Admin Login
 
-Basavaraj Sindagi
+| Field | Value |
+|------|------|
+| URL | `/login` |
+| Username | `admin` |
+| Password | `admin123` |
 
-GitHub: basavarajsindgi91-netizen
-📄 License
+---
+
+# 📸 Pages
+
+| Page | URL |
+|------|------|
+| Shop | `/` |
+| Cart | `/cart` |
+| Checkout | `/checkout` |
+| Admin Panel | `/admin` |
+| Login | `/login` |
+
+---
+
+# 📬 Email Confirmation
+
+After checkout, customers receive an email containing:
+
+- Ordered books
+- Total amount
+- Delivery address
+- Purchase confirmation
+
+---
+
+# 🚀 Future Enhancements
+
+- User authentication
+- Payment gateway
+- Order history
+- Wishlist
+- Mobile responsive UI
+- Category filters
+
+---
+
+# 👨‍💻 Author
+
+### Basavaraj Sindagi
+
+- GitHub: [basavarajsindgi91-netizen](https://github.com/basavarajsindgi91-netizen)
+
+---
+
+# ⭐ Support
+
+If you like this project, give it a ⭐ on GitHub.
+
+---
+
+# 📄 License
 
 This project is licensed under the MIT License.
-
-⭐ Support
-
-If you like this project, consider giving it a ⭐ on GitHub!
